@@ -4,6 +4,8 @@ import time
 import pandas as pd
 import requests
 
+pd.set_option('display.max_columns', None)
+
 
 def get_variables(subject_id):
     url = f'https://bdl.stat.gov.pl/api/v1/variables?subject-id={subject_id}'
@@ -29,7 +31,7 @@ def get_data_by_variable(variable_id: str = None, unit_level='5', year='2020'):
             response = requests.get(url)
             data = json.loads(response.content)
             data_normalized = pd.json_normalize(data['results'], record_path='values', meta=['id', 'name'])
-            data_normalized.drop(columns=['attrId', 'id'], inplace=True)
+            # data_normalized.drop(columns=['attrId', 'id'], inplace=True)
             df = pd.concat([df, data_normalized])
 
             # print(data['links']['self'])
@@ -57,11 +59,15 @@ def get_all_data_from_subject(subject_id):
         variable_df = get_data_by_variable(variable.id)
         variable_df.rename(columns={'val': variable.n1 + ' ' + variable.n2}, inplace=True)
 
-        df = df.join(variable_df)
+        try:
+            df = pd.merge_ordered(df, variable_df, on='name', how='outer')
+            # df.drop(['attrId_y'], axis=1, inplace=True)
+        except Exception:
+            df = variable_df
 
     return df
 
 
 # print(get_variables('P3783').to_string())
-# print(get_data_by_variable('633617').head(1000))
+#print(get_data_by_variable('633617').head(1000))
 print(get_all_data_from_subject('P3783'))
