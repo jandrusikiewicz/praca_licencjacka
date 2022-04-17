@@ -58,10 +58,12 @@ def get_all_data_from_subject(subject_id):
     for variable in subject_df.itertuples():
         variable_df = get_data_by_variable(variable.id)
         variable_df.rename(columns={'val': variable.n1 + ' ' + variable.n2}, inplace=True)
+        # variable_df = variable_df.drop(['attrId'], axis=1, inplace=True)
+        variable_df = variable_df.iloc[:, [1, 3, 4]]
 
         try:
-            df = pd.merge_ordered(df, variable_df, on='name', how='outer')
-            # df.drop(['attrId_y'], axis=1, inplace=True)
+            df = pd.merge_ordered(df, variable_df, on='id', how='outer')
+            # df.drop(['id_y'], axis=1, inplace=True)
         except Exception:
             df = variable_df
 
