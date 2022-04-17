@@ -59,17 +59,18 @@ def get_all_data_from_subject(subject_id):
         variable_df = get_data_by_variable(variable.id)
         variable_df.rename(columns={'val': variable.n1 + ' ' + variable.n2}, inplace=True)
         # variable_df = variable_df.drop(['attrId'], axis=1, inplace=True)
-        variable_df = variable_df.iloc[:, [1, 3, 4]]
+        # variable_df = variable_df.iloc[:, [1, 3, 4]]
 
         try:
-            df = pd.merge_ordered(df, variable_df, on='id', how='outer')
+            variable_df1 = variable_df.iloc[:, [1, 3]]
+            df = pd.merge_ordered(df, variable_df1, on='id', how='outer')
             # df.drop(['id_y'], axis=1, inplace=True)
         except Exception:
-            df = variable_df
+            df = variable_df.iloc[:, [1, 3, 4]]
 
     return df
 
 
 # print(get_variables('P3783').to_string())
-#print(get_data_by_variable('633617').head(1000))
+# print(get_data_by_variable('633617').head(1000))
 print(get_all_data_from_subject('P3783'))
