@@ -17,7 +17,7 @@ table_names = [
     'Wartość lokali mieszkalnych sprzedanych w ramach transakcji rynkowych'
 ]
 
-code = 'DefaultEndpointsProtocol=https;AccountName=pracalicencjacka;AccountKey=9QH+KN4FHq4/cxy6pCQNXoQmvg1SXaj+P8ln3iAj6HBcvB8o3VR0JQMq+Vf6Xb7Ewu+FL9XBcTGQj4tR2TD3tA==;EndpointSuffix=core.windows.net'
+code = ''
 
 for i, df in enumerate(df_list):
     # df.iloc[:, 1].add_prefix(table_names[i])
