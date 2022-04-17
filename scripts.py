@@ -1,6 +1,7 @@
 import json
 import time
 
+import pandas as pd
 import requests
 
 
@@ -61,5 +62,10 @@ def get_all_data_from_subject(subject_id):
     return df
 
 
-def get_multiple_subjects(*subjects):
-    for subject in subjects:
+def get_multiple_subjects(*subjects_ids):
+    dataframes_list = []
+
+    for subject in subjects_ids:
+        dataframes_list.append(get_all_data_from_subject(subject))
+
+    return dataframes_list
