@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 
 
-def get_variables(subject_id):
+def get_variables(subject_id: str) -> pd.DataFrame:
     url = f'https://bdl.stat.gov.pl/api/v1/variables?subject-id={subject_id}&page=0&page-size=100'
     response = requests.get(url)
     data = json.loads(response.content)
@@ -44,7 +44,7 @@ def get_data_by_variable(variable_id: str = None, unit_level='5', year='2020'):
     return df
 
 
-def get_all_data_from_subject(subject_id):
+def get_all_data_from_subject(subject_id: str) -> pd.DataFrame:
     subject_df = get_variables(subject_id)
     df = pd.DataFrame()
 
@@ -62,7 +62,7 @@ def get_all_data_from_subject(subject_id):
     return df
 
 
-def get_multiple_subjects(*subjects_ids):
+def get_multiple_subjects(*subjects_ids: str) -> list:
     dataframes_list = []
 
     for subject in subjects_ids:
@@ -71,7 +71,7 @@ def get_multiple_subjects(*subjects_ids):
     return dataframes_list
 
 
-def get_container_link(storage_account_name: str, container_name: str):
+def get_container_link(storage_account_name: str, container_name: str) -> str:
     container_link = "wasbs://{0}@{1}.blob.core.windows.net/".format(container_name, storage_account_name)
 
     return container_link
