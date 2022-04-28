@@ -6,7 +6,7 @@ import requests
 
 
 def get_variables(subject_id):
-    url = f'https://bdl.stat.gov.pl/api/v1/variables?subject-id={subject_id}'
+    url = f'https://bdl.stat.gov.pl/api/v1/variables?subject-id={subject_id}&page=0&page-size=100'
     response = requests.get(url)
     data = json.loads(response.content)
     data_normalized = pd.json_normalize(data, record_path='results')
@@ -69,3 +69,9 @@ def get_multiple_subjects(*subjects_ids):
         dataframes_list.append(get_all_data_from_subject(subject))
 
     return dataframes_list
+
+
+def get_container_link(storage_account_name: str, container_name: str):
+    container_link = "wasbs://{0}@{1}.blob.core.windows.net/".format(container_name, storage_account_name)
+
+    return container_link
