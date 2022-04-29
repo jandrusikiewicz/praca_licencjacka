@@ -67,11 +67,15 @@ table_names = [
 
 code = 'DefaultEndpointsProtocol=https;AccountName=pracalicencjacka;AccountKey=9QH+KN4FHq4/cxy6pCQNXoQmvg1SXaj+P8ln3iAj6HBcvB8o3VR0JQMq+Vf6Xb7Ewu+FL9XBcTGQj4tR2TD3tA==;EndpointSuffix=core.windows.net'
 years = ['2018', '2019', '2020']
+ids = ['P3783', 'P3787', 'P3785', 'P3786', 'P3788', 'P3784']
 
 
-def get_and_blob():
+def get_and_blob(subjects_ids: list, unit_level: int, years: list):
+    unit_level = str(unit_level)
+
     for year in years:
-        df_list = get_multiple_subjects(['P3783', 'P3787', 'P3785', 'P3786', 'P3788', 'P3784'], '5', year)
+        df_list = get_multiple_subjects(subjects_ids, unit_level, year)
+
         for i, df in enumerate(df_list):
             # df.iloc[:, 1].add_prefix(table_names[i])
             file = df.to_csv(encoding='UTF-8')
@@ -79,7 +83,10 @@ def get_and_blob():
             blob = BlobClient.from_connection_string(
                 code,
                 container_name='con-gus-kwartalne',
-                blob_name=table_names[i] + '.csv'
+                blob_name=year + table_names[i] + '.csv'
             )
 
             blob.upload_blob(file)
+
+
+get_and_blob(ids, 5, years)
