@@ -1,5 +1,3 @@
-import json
-
 from scripts import *
 
 pd.set_option('display.max_columns', None)
@@ -27,23 +25,22 @@ code = 'DefaultEndpointsProtocol=https;AccountName=pracalicencjacka;AccountKey=9
 # ]
 # subjects_list_kwartalne = ['P3789', 'P3793', 'P3791', 'P3792', 'P3794', 'P3790']
 
-# reading the data from the file
-with open('tabela_kwartalne.json') as f:
+with open('tabela_kwartalne') as f:
     tabela_kwartalne = f.read()
 
-with open('tabela_roczne.json') as f:
+with open('tabela_roczne') as f:
     tabela_roczne = f.read()
 
 tabela_kwartalne = json.loads(tabela_kwartalne)
 tabela_roczne = json.loads(tabela_roczne)
-
-years = [2018, 2019, 2020]
 
 kody_grup_roczne = tabela_kwartalne.keys()
 kody_grup_kwartalne = tabela_kwartalne.keys()
 
 nazwy_grup_roczne = tabela_kwartalne.values()
 nazwy_grup_kwartalne = tabela_kwartalne.values()
+
+years = [2018, 2019, 2020]
 
 get_and_blob(kody_grup_roczne, 5, years, nazwy_grup_roczne, code, 'con-gus-roczne')
 
