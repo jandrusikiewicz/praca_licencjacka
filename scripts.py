@@ -7,7 +7,7 @@ from azure.storage.blob import BlobClient
 
 def get_variables(subject_id: str) -> pd.DataFrame:
     url = f'https://bdl.stat.gov.pl/api/v1/variables?subject-id={subject_id}&page=0&page-size=100'
-    response = requests.get(url)
+    response = requests.get(url, timeout=1)
     data = json.loads(response.content)
     data_normalized = pd.json_normalize(data, record_path='results')
 
