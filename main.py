@@ -4,7 +4,57 @@ from scripts import *
 
 pd.set_option('display.max_columns', None)
 
-df_list = get_multiple_subjects('P3783', 'P3787', 'P3785', 'P3786', 'P3788', 'P3784')
+code = 'DefaultEndpointsProtocol=https;AccountName=pracalicencjacka;AccountKey=9QH+KN4FHq4/cxy6pCQNXoQmvg1SXaj' \
+       '+P8ln3iAj6HBcvB8o3VR0JQMq+Vf6Xb7Ewu+FL9XBcTGQj4tR2TD3tA==;EndpointSuffix=core.windows.net '
+
+# extract danych kwartalnych za 2018-2020
+# extract danych kwartalnych za 2018-2020
+# extract danych kwartalnych za 2018-2020
+# extract danych kwartalnych za 2018-2020
+
+# table_names_kwartalne = [
+#     'Liczba lokali mieszkalnych sprzedanych w ramach transakcji rynkowych (dane kwartalne)',
+#     'Mediana cen za 1 m2 lokali mieszkalnych sprzedanych w ramach transakcji rynkowych (dane kwartalne)',
+#     'Powierzchnia użytkowa lokali mieszkalnych sprzedanych w ramach transakcji rynkowych (dane kwartalne)',
+#     'Średnia cena lokali mieszkalnych sprzedanych w ramach transakcji rynkowych (P3786) (dane kwartalne)',
+#     'Średnia cena za 1 m2 lokali mieszkalnych sprzedanych w ramach transakcji rynkowych (dane kwartalne)',
+#     'Wartość lokali mieszkalnych sprzedanych w ramach transakcji rynkowych (dane kwartalne)'
+# ]
+#
+# subjects_list_kwartalne = ['P3789', 'P3793', 'P3791', 'P3792', 'P3794', 'P3790']
+#
+#
+# def get_and_load(subjects_list: list, unit_level='5', years=[2020], container_code=code, container='con-gus'):
+#
+#     unit_level = str(unit_level)
+#     subjects_list = map(str, subjects_list)
+#
+#     for year in years:  # iteracja po latach, żeby dla każdego roku mieć osobny plik
+#         #year = str(year)
+#         df_list = get_multiple_subjects(subjects_list, unit_level, year)
+#         print('year')
+#         for i, df in enumerate(df_list):
+#             # df.iloc[:, 1].add_prefix(table_names[i])
+#             file = df.to_csv(encoding='UTF-8')
+#
+#             blob = BlobClient.from_connection_string(
+#                 container_code,
+#                 container_name=container,
+#                 blob_name=year + table_names_kwartalne[i] + '.csv'  # tu dodac parametr do funkcji zeby table names bylo lepsze
+#             )
+#
+#             blob.upload_blob(file)
+#             print('git')
+#
+#
+# get_and_load(subjects_list_kwartalne, 5, [2018, 2019, 2020], code, 'con-gus-kwartalne')
+
+# extract danych rocznych za 2018-2020
+# extract danych rocznych za 2018-2020
+# extract danych rocznych za 2018-2020
+# extract danych rocznych za 2018-2020
+# extract danych rocznych za 2018-2020
+
 
 table_names = [
     'Liczba lokali mieszkalnych sprzedanych w ramach transakcji rynkowych',
@@ -16,15 +66,20 @@ table_names = [
 ]
 
 code = 'DefaultEndpointsProtocol=https;AccountName=pracalicencjacka;AccountKey=9QH+KN4FHq4/cxy6pCQNXoQmvg1SXaj+P8ln3iAj6HBcvB8o3VR0JQMq+Vf6Xb7Ewu+FL9XBcTGQj4tR2TD3tA==;EndpointSuffix=core.windows.net'
+years = ['2018', '2019', '2020']
 
-for i, df in enumerate(df_list):
-    # df.iloc[:, 1].add_prefix(table_names[i])
-    file = df.to_csv(encoding='UTF-8')
 
-    blob = BlobClient.from_connection_string(
-        code,
-        container_name='con-gus-1',
-        blob_name=table_names[i] + '.csv'
-    )
+def get_and_blob():
+    for year in years:
+        df_list = get_multiple_subjects(['P3783', 'P3787', 'P3785', 'P3786', 'P3788', 'P3784'], '5', year)
+        for i, df in enumerate(df_list):
+            # df.iloc[:, 1].add_prefix(table_names[i])
+            file = df.to_csv(encoding='UTF-8')
 
-    blob.upload_blob(file)
+            blob = BlobClient.from_connection_string(
+                code,
+                container_name='con-gus-kwartalne',
+                blob_name=table_names[i] + '.csv'
+            )
+
+            blob.upload_blob(file)

@@ -1,5 +1,4 @@
 import json
-import time
 
 import pandas as pd
 import requests
@@ -14,7 +13,7 @@ def get_variables(subject_id: str) -> pd.DataFrame:
     return data_normalized
 
 
-def get_data_by_variable(variable_id: str = None, unit_level='5', year='2020'):
+def get_data_by_variable(variable_id: str = None, unit_level='5', year='2018'):
     if variable_id is None:
         variable_id = ''
 
@@ -39,18 +38,21 @@ def get_data_by_variable(variable_id: str = None, unit_level='5', year='2020'):
 
         page += 1
         url = url1 + '&page=' + str(page)
-        time.sleep(1)
+        # time.sleep(1)
 
     return df
 
 
-def get_all_data_from_subject(subject_id: str) -> pd.DataFrame:
+def get_all_data_from_subject(subject_id: str, unit_level='5', year='2018') -> pd.DataFrame:
     subject_df = get_variables(subject_id)
     df = pd.DataFrame()
 
     for variable in subject_df.itertuples():
-        variable_df = get_data_by_variable(variable.id)
-        variable_df.rename(columns={'val': variable.n1 + ' ' + variable.n2}, inplace=True)
+        variable_df = get_data_by_variable(variable.id, unit_level, year)
+        try:  # dla danych kwartalnych musi dolaczyc trzecia kolumne, jak nie sa to dane kwartalne to jest nie dolaczy
+            variable_df.rename(columns={'val': variable.n1 + ' ' + variable.n2 + ' ' + variable.n3}, inplace=True)
+        except Exception:  # i zrobi to
+            variable_df.rename(columns={'val': variable.n1 + ' ' + variable.n2}, inplace=True)
 
         try:
             variable_df1 = variable_df.iloc[:, [1, 3]]
@@ -62,11 +64,12 @@ def get_all_data_from_subject(subject_id: str) -> pd.DataFrame:
     return df
 
 
-def get_multiple_subjects(*subjects_ids: str) -> list:
+def get_multiple_subjects(subjects_ids: list, unit_level: str, year: str) -> list:
     dataframes_list = []
 
     for subject in subjects_ids:
-        dataframes_list.append(get_all_data_from_subject(subject))
+        dataframes_list.append(get_all_data_from_subject(subject, unit_level, year))
+        print('done')
 
     return dataframes_list
 
