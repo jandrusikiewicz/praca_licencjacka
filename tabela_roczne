@@ -1,0 +1,8 @@
+{
+'P3783': 'Liczba lokali mieszkalnych sprzedanych w ramach transakcji rynkowych',
+'P3787':  'Mediana cen za 1 m2 lokali mieszkalnych sprzedanych w ramach transakcji rynkowych',
+'P3785': 'Powierzchnia użytkowa lokali mieszkalnych sprzedanych w ramach transakcji rynkowych'
+'P3786': 'Średnia cena lokali mieszkalnych sprzedanych w ramach transakcji rynkowych (P3786)',
+'P3788': 'Średnia cena za 1 m2 lokali mieszkalnych sprzedanych w ramach transakcji rynkowych',
+'P3784': 'Wartość lokali mieszkalnych sprzedanych w ramach transakcji rynkowych,
+}
