@@ -2,6 +2,7 @@ import json
 
 import pandas as pd
 import requests
+from azure.storage.blob import BlobClient
 
 
 def get_variables(subject_id: str) -> pd.DataFrame:
@@ -69,7 +70,6 @@ def get_multiple_subjects(subjects_ids: list, unit_level: str, year: str) -> lis
 
     for subject in subjects_ids:
         dataframes_list.append(get_all_data_from_subject(subject, unit_level, year))
-        print('done')
 
     return dataframes_list
 
@@ -78,3 +78,24 @@ def get_container_link(storage_account_name: str, container_name: str) -> str:
     container_link = "wasbs://{0}@{1}.blob.core.windows.net/".format(container_name, storage_account_name)
 
     return container_link
+
+
+def get_and_blob(subjects_ids: list, unit_level: int, years: list, tables_names: list, connection_string: str,
+                 container_name: str):
+    unit_level = str(unit_level)
+    years = map(str, years)
+
+    for year in years:
+        df_list = get_multiple_subjects(subjects_ids, unit_level, year)
+
+        for i, df in enumerate(df_list):
+            # df.iloc[:, 1].add_prefix(table_names[i])
+            file = df.to_csv(encoding='UTF-8')
+
+            blob = BlobClient.from_connection_string(
+                connection_string,
+                container_name=container_name,
+                blob_name=year + ' - ' + tables_names[i] + '.csv'
+            )
+
+            blob.upload_blob(file)
