@@ -139,26 +139,6 @@ def get_multiple_subjects(subjects_ids: list, unit_level: str, year: str) -> lis
     return dataframes_list
 
 
-# def get_container_link(storage_account_name: str, container_name: str) -> str:
-#     """Creates a link to the Azure Blob Storage Container.
-#
-#     Parameters
-#     ----------
-#     storage_account_name: str
-#         Name of the storage account.
-#     container_name: str
-#         Name of the container.
-#
-#     Returns
-#     -------
-#     container_link: str
-#
-#     """
-#     container_link = "wasbs://{0}@{1}.blob.core.windows.net/".format(container_name, storage_account_name)
-#
-#     return container_link
-
-
 def get_and_blob(subjects_ids: list, unit_level: int, years: list, tables_names: list, connection_string: str,
                  container_name: str):
     """Get data for the selected parameters and upload to the selected Azure Blob Storage Container.
@@ -197,8 +177,8 @@ def get_and_blob(subjects_ids: list, unit_level: int, years: list, tables_names:
             blob.upload_blob(file)
 
 
-def get_subject_and_names_lists(filename: str) -> list:  # sprawdz jak zrobic return type gdy zwraca dwie wartosci
-    """
+def get_subject_and_names_lists(filename: str) -> tuple[list, list]:
+    """Gets filename and returns list of subjects' IDs and list of tables' names, which are saved in local JSON file.
 
     Parameters
     ----------
