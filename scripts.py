@@ -99,3 +99,14 @@ def get_and_blob(subjects_ids: list, unit_level: int, years: list, tables_names:
             )
 
             blob.upload_blob(file)
+
+
+def get_subject_and_names_lists(filename: str):
+    with open(filename) as f:
+        table = f.read()
+
+    table = json.loads(table)
+    subjects = [*table.keys()]
+    names = [*table.values()]
+
+    return subjects, names
