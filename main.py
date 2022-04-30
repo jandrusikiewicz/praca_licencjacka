@@ -1,7 +1,7 @@
 from scripts import *
 
 code = 'DefaultEndpointsProtocol=https;AccountName=pracalicencjacka;AccountKey=9QH+KN4FHq4/cxy6pCQNXoQmvg1SXaj' \
-       '+P8ln3iAj6HBcvB8o3VR0JQMq+Vf6Xb7Ewu+FL9XBcTGQj4tR2TD3tA==;EndpointSuffix=core.windows.net '
+       '+P8ln3iAj6HBcvB8o3VR0JQMq+Vf6Xb7Ewu+FL9XBcTGQj4tR2TD3tA==;EndpointSuffix=core.windows.net'
 
 with open('tabela_kwartalne') as f:
     tabela_kwartalne = f.read()
@@ -18,8 +18,8 @@ kody_grup_kwartalne = [*tabela_kwartalne.keys()]
 nazwy_grup_roczne = [*tabela_kwartalne.values()]
 nazwy_grup_kwartalne = [*tabela_kwartalne.values()]
 
-years = [2018, 2019, 2020]
+lata = [2020]
 
-get_and_blob(kody_grup_roczne, 5, years, nazwy_grup_roczne, code, 'con-gus-roczne')
+get_and_blob(kody_grup_roczne, 5, lata, nazwy_grup_roczne, code, 'con-gus-roczne')
 
-get_and_blob(kody_grup_kwartalne, 5, years, nazwy_grup_kwartalne, code, 'con-gus-kwartalne')
+get_and_blob(kody_grup_kwartalne, 5, lata, nazwy_grup_kwartalne, code, 'con-gus-kwartalne')
