@@ -140,7 +140,7 @@ def get_multiple_subjects(subjects_ids: list, unit_level: str, year: str) -> lis
 
 
 def get_and_blob(subjects_ids: list, unit_level: int, years: list, tables_names: list, connection_string: str,
-                 container_name: str):
+                 container_name: str) -> None:
     """Get data for the selected parameters and upload to the selected Azure Blob Storage Container.
 
     Parameters
